@@ -1,31 +1,51 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
+  const pathname = usePathname();
+  
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-200">
+    <nav className="bg-[#0a0e1a]/80 backdrop-blur-md border-b border-cyan-500/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">D</span>
+            <div className="text-2xl font-bold tracking-wider">
+              <span className="text-white">DETECT</span>
             </div>
-            <span className="text-xl font-semibold text-gray-900">
-              DeepFake Detector
-            </span>
           </Link>
           
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-8">
             <Link 
-              href="/" 
-              className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+              href="/upload" 
+              className={`text-sm font-medium transition-colors ${
+                pathname === '/upload' 
+                  ? 'text-cyan-400' 
+                  : 'text-gray-300 hover:text-white'
+              }`}
             >
-              Home
+              Upload
             </Link>
             <Link 
-              href="/detect" 
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+              href="/results" 
+              className={`text-sm font-medium transition-colors ${
+                pathname === '/results' 
+                  ? 'text-cyan-400' 
+                  : 'text-gray-300 hover:text-white'
+              }`}
             >
-              Detect
+              Results
+            </Link>
+            <Link 
+              href="/awareness" 
+              className={`text-sm font-medium transition-colors ${
+                pathname === '/awareness' 
+                  ? 'text-cyan-400' 
+                  : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              Awareness
             </Link>
           </div>
         </div>

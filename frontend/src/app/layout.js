@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "DeepFake Detector - AI-Powered Synthetic Media Detection",
-  description: "Advanced AI-powered detection for deepfake images, videos, audio, and text. Protect yourself from synthetic media with our cutting-edge technology.",
-  keywords: "deepfake detection, AI detection, synthetic media, fake video detection, voice cloning detection",
+  description: "Advanced AI-powered detection for deepfake images, videos, and text. Protect yourself from synthetic media with our cutting-edge technology.",
+  keywords: "deepfake detection, AI detection, synthetic media, fake video detection, text analysis",
   authors: [{ name: "DeepFake Detection Team" }],
 };
 

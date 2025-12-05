@@ -1,0 +1,11 @@
+# Backend Requirements
+fastapi
+uvicorn[standard]
+python-multipart
+
+# Model Requirements
+torch
+torchvision
+numpy
+opencv-python
+scikit-learn
