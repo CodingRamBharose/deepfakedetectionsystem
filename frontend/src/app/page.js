@@ -1,15 +1,53 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
+import FaceScanner from '@/components/three/FaceScanner';
 
 
 export default function Home() {
+  const video1Ref = useRef(null);
+  const video2Ref = useRef(null);
+  const [activeVideo, setActiveVideo] = useState(1);
+
+  useEffect(() => {
+    const video1 = video1Ref.current;
+    const video2 = video2Ref.current;
+    if (!video1 || !video2) return;
+
+    // Preload both videos
+    video1.load();
+    video2.load();
+    
+    // Start first video
+    video1.play().catch(err => console.log('Autoplay prevented:', err));
+
+    const handleVideo1Ended = () => {
+      setActiveVideo(2);
+      video2.currentTime = 0;
+      video2.play();
+    };
+
+    const handleVideo2Ended = () => {
+      setActiveVideo(1);
+      video1.currentTime = 0;
+      video1.play();
+    };
+
+    video1.addEventListener('ended', handleVideo1Ended);
+    video2.addEventListener('ended', handleVideo2Ended);
+
+    return () => {
+      video1.removeEventListener('ended', handleVideo1Ended);
+      video2.removeEventListener('ended', handleVideo2Ended);
+    };
+  }, []);
   return (
     <div className="min-h-screen bg-[#0a0e1a]">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Side - Hero Content */}
           <div className="space-y-8">
@@ -31,21 +69,29 @@ export default function Home() {
               Start Deepfake Scan
             </Link>
           </div>
-          <div className="relative w-[350px] h-[350px] overflow-hidden">
+
+          {/* Right Side - Video Display */}
+          <div className="relative w-full h-[350px] overflow-hidden rounded-2xl border border-cyan-500/30 shadow-2xl shadow-cyan-500/20">
+            {/* Forward video */}
             <video
-              src="/assets/homevideo.mp4"
-              autoPlay
-              loop
+              ref={video1Ref}
               muted
               playsInline
-              className="w-full h-full object-cover opacity-80"
-            />
-
-            {/* Optional gradient overlay for better text contrast */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0a0e1a]/80 via-transparent to-[#0a0e1a]/80 pointer-events-none" />
+              className={`absolute inset-0 w-full h-full object-contain ${activeVideo === 1 ? 'opacity-80' : 'opacity-0'}`}
+            >
+              <source src="/models/homepage.mp4" type="video/mp4" />
+            </video>
+            {/* Reverse video */}
+            <video
+              ref={video2Ref}
+              muted
+              playsInline
+              className={`absolute inset-0 w-full h-full object-contain ${activeVideo === 2 ? 'opacity-80' : 'opacity-0'}`}
+            >
+              <source src="/models/homepage-reverse.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0a0e1a]/40 via-transparent to-[#0a0e1a]/40 pointer-events-none" />
           </div>
-
-
         </div>
         <div className="grid grid-cols-3 gap-4 pt-2">
           <div className="bg-[#1a1f35]/50 backdrop-blur-sm rounded-lg p-6 border border-cyan-500/20">

@@ -30,6 +30,7 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
+  
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
@@ -157,5 +158,60 @@ textarea:focus-visible {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Horizontal scan pass (secondary subtle pass) */
+.scan-line-horizontal {
+  position: absolute;
+  height: 100%;
+  width: 2px;
+  left: 0;
+  top: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(34, 211, 238, 0.9),
+    transparent
+  );
+  animation: scanMoveX 6s infinite ease-in-out;
+  opacity: 0.5;
+}
+
+@keyframes scanMoveX {
+  0% { left: 0%; opacity: 0; }
+  10% { opacity: 0.8; }
+  50% { left: 100%; opacity: 0.6; }
+  90% { opacity: 0.8; }
+  100% { left: 0%; opacity: 0; }
+}
+
+
+
+.scan-line {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #22d3ee,
+    transparent
+  );
+  animation: scanMove 3s infinite linear;
+  opacity: 0.8;
+}
+
+@keyframes scanMove {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
   }
 }
